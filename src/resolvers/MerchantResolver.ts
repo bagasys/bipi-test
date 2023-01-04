@@ -58,6 +58,24 @@ class CreateMerchantSpec {
 }
 
 @InputType()
+class UpdateMerchantSpec {
+  @Field(() => String, { nullable: true })
+  merchant_name?: string;
+
+  @Field(() => String, { nullable: true })
+  phone_number?: string;
+
+  @Field(() => Float, { nullable: true })
+  latitude?: number;
+
+  @Field(() => Float, { nullable: true })
+  longitude?: number;
+
+  @Field(() => Boolean, { nullable: true })
+  is_active?: boolean;
+}
+
+@InputType()
 class ToggleMerchantIsActiveSpec {
   @Field(() => [Int])
   ids: [number];
@@ -126,5 +144,34 @@ export class MerchantResolver {
         is_active: options.is_active,
       });
     return `successfuly updated ${updatedCount} merchants' is_active to ${options.is_active}`;
+  }
+
+  @Mutation(() => Merchant)
+  async updateMerchant(
+    @Arg("id", () => Int) id: number,
+    @Arg("options", () => UpdateMerchantSpec) options: UpdateMerchantSpec
+  ) {
+    const [merchant] = await knex("merchants")
+      .where({ id: id })
+      .update(options, ["*"]);
+
+    if (!merchant) {
+      throw new GraphQLError(
+        `Merchant with id of ${id} not found`,
+        null,
+        null,
+        null,
+        null,
+        null,
+        {
+          code: "NOT_FOUND",
+          http: {
+            status: 404,
+          },
+        }
+      );
+    }
+
+    return merchant;
   }
 }
