@@ -10,6 +10,7 @@ import {
   ObjectType,
   Int,
 } from "type-graphql";
+import { GraphQLError } from "graphql";
 
 @ObjectType()
 export class Merchant {
@@ -76,6 +77,33 @@ export class MerchantResolver {
   async merchants() {
     const merchants = await knex.select("*").from("merchants");
     return merchants;
+  }
+
+  @Query(() => Merchant)
+  async getMerchantById(@Arg("id", () => Int) id: number) {
+    const [merchant] = await knex
+      .select("*")
+      .where({ id: id })
+      .from("merchants");
+
+    if (!merchant) {
+      throw new GraphQLError(
+        `Merchant with id of ${id} not found`,
+        null,
+        null,
+        null,
+        null,
+        null,
+        {
+          code: "NOT_FOUND",
+          http: {
+            status: 404,
+          },
+        }
+      );
+    }
+
+    return merchant;
   }
 
   @Mutation(() => Merchant)
