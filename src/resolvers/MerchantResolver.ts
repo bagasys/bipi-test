@@ -84,6 +84,15 @@ class ToggleMerchantIsActiveSpec {
   is_active: boolean;
 }
 
+@InputType()
+class GetMerchantsSpec {
+  @Field(() => Int, { defaultValue: 10 })
+  limit: number;
+
+  @Field(() => Int, { defaultValue: 0 })
+  offset: number;
+}
+
 @Resolver()
 export class MerchantResolver {
   @Query(() => String)
@@ -92,8 +101,15 @@ export class MerchantResolver {
   }
 
   @Query(() => [Merchant])
-  async merchants() {
-    const merchants = await knex.select("*").from("merchants");
+  async merchants(
+    @Arg("options", () => GetMerchantsSpec) options: GetMerchantsSpec
+  ) {
+    console.log(options);
+    const merchants = await knex
+      .select("*")
+      .from("merchants")
+      .limit(options.limit)
+      .offset(options.offset);
     return merchants;
   }
 
@@ -129,7 +145,6 @@ export class MerchantResolver {
     @Arg("options", () => CreateMerchantSpec) options: CreateMerchantSpec
   ) {
     const [merchant] = await knex.insert([options], ["*"]).into("merchants");
-    console.log(Merchant);
     return merchant;
   }
 
