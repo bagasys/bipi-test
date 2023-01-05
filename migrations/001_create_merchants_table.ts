@@ -7,7 +7,7 @@ export async function up(knex: Knex) {
     table.string("phone_number").notNullable();
     table.decimal("latitude", 11, 8).notNullable();
     table.decimal("longitude", 11, 8).notNullable();
-    table.boolean("is_active").notNullable().defaultTo(true);
+    table.boolean("is_active").notNullable().defaultTo(false);
     table.timestamps(true, true);
   });
 
