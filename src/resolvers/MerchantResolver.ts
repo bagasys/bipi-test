@@ -95,7 +95,7 @@ class UpdateMerchantSpec {
 }
 
 @InputType()
-class ToggleMerchantIsActiveSpec {
+class ToggleMerchantsIsActiveSpec {
   @Field(() => [Int])
   ids: [number];
 
@@ -194,9 +194,9 @@ export class MerchantResolver {
   }
 
   @Mutation(() => String)
-  async toggleMerchantIsActive(
-    @Arg("options", () => ToggleMerchantIsActiveSpec)
-    options: ToggleMerchantIsActiveSpec
+  async toggleMerchantsIsActive(
+    @Arg("options", () => ToggleMerchantsIsActiveSpec)
+    options: ToggleMerchantsIsActiveSpec
   ) {
     const updatedCount = await knex("merchants")
       .where((queryBuilder) => queryBuilder.whereIn("id", options.ids))
