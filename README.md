@@ -84,7 +84,7 @@ type Query {
 ```
 type Mutation {
   createMerchant(options: CreateMerchantSpec!): Merchant!
-  toggleMerchantIsActive(options: ToggleMerchantIsActiveSpec!): String!
+  toggleMerchantsIsActive(options: ToggleMerchantsIsActiveSpec!): String!
   updateMerchant(options: UpdateMerchantSpec!, id: Int!): Merchant!
 }
 ```
@@ -130,7 +130,7 @@ input CreateMerchantSpec {
   is_active: Boolean!
 }
 
-input ToggleMerchantIsActiveSpec {
+input ToggleMerchantsIsActiveSpec {
   ids: [Int!]!
   is_active: Boolean!
 }
@@ -152,13 +152,14 @@ input UpdateMerchantSpec {
 ![Screenshot from 2023-01-05 15-05-26](https://user-images.githubusercontent.com/37441075/210731829-6512e90c-7b20-4b52-b6c1-331746a0abac.png)
 
 ### Toggle Merchant Is Active in Bulk
-![Screenshot from 2023-01-05 15-06-13](https://user-images.githubusercontent.com/37441075/210731838-1d5987db-986a-44d3-a6c6-772f512266b2.png)
-![Screenshot from 2023-01-05 15-06-06](https://user-images.githubusercontent.com/37441075/210731832-d263fab0-5360-47ed-b5ed-12f1e4dfc3dc.png)
+![Screenshot from 2023-01-05 15-14-14](https://user-images.githubusercontent.com/37441075/210732841-646c0b40-811c-473c-8a23-859250adfe0b.png)
+![Screenshot from 2023-01-05 15-14-26](https://user-images.githubusercontent.com/37441075/210732845-2c2b2af4-43a3-4309-bcbf-69c0256cc16b.png)
 
 ### Get List of Merchants
 ![Screenshot from 2023-01-05 15-02-16](https://user-images.githubusercontent.com/37441075/210731813-12d233c8-1384-4bcc-83d2-83e75040e49d.png)
 
 ### Get Merchant By Id
 ![Screenshot from 2023-01-05 15-03-18](https://user-images.githubusercontent.com/37441075/210731817-3aaa402b-5ac8-4d0f-b45f-b81a7f2375e4.png)
+
 
 
