@@ -120,11 +120,6 @@ class GetMerchantsSpec {
 
 @Resolver()
 export class MerchantResolver {
-  @Query(() => String)
-  async hello() {
-    return "Hello, it's Working!";
-  }
-
   @Query(() => [Merchant])
   async merchants(
     @Arg("options", () => GetMerchantsSpec) options: GetMerchantsSpec

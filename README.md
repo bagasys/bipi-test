@@ -39,8 +39,6 @@ DATABASE_POOL_MAX=10
 DATABASE_POOL_IDLE_TIMEOUT_MILLIS=2000
 ```
 
-
-
 ### Run Migration
 
 After having a running instance of postgres database, execute this command to execute the migration
@@ -65,15 +63,12 @@ npm start
 
 GraphQL playground can be accessed in `http://localhost:4000/graphql`
 
-
-
 ## GraphQL Operations
 
 ### Query
 
 ```
 type Query {
-  hello: String!
   merchants(options: GetMerchantsSpec!): [Merchant!]!
   getMerchantById(id: Int!): Merchant!
 }
@@ -145,21 +140,24 @@ input UpdateMerchantSpec {
 ```
 
 ## Screenshots
+
 ### Create Merchant
+
 ![Screenshot from 2023-01-05 15-04-46](https://user-images.githubusercontent.com/37441075/210731821-71bc8783-edbe-4739-af37-d3cf9e0e6756.png)
 
 ### Update Merchant
+
 ![Screenshot from 2023-01-05 15-05-26](https://user-images.githubusercontent.com/37441075/210731829-6512e90c-7b20-4b52-b6c1-331746a0abac.png)
 
 ### Toggle Merchant Is Active in Bulk
+
 ![Screenshot from 2023-01-05 15-14-14](https://user-images.githubusercontent.com/37441075/210732841-646c0b40-811c-473c-8a23-859250adfe0b.png)
 ![Screenshot from 2023-01-05 15-14-26](https://user-images.githubusercontent.com/37441075/210732845-2c2b2af4-43a3-4309-bcbf-69c0256cc16b.png)
 
 ### Get List of Merchants
+
 ![Screenshot from 2023-01-05 15-02-16](https://user-images.githubusercontent.com/37441075/210731813-12d233c8-1384-4bcc-83d2-83e75040e49d.png)
 
 ### Get Merchant By Id
+
 ![Screenshot from 2023-01-05 15-03-18](https://user-images.githubusercontent.com/37441075/210731817-3aaa402b-5ac8-4d0f-b45f-b81a7f2375e4.png)
-
-
-
