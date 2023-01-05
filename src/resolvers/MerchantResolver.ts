@@ -166,6 +166,22 @@ export class MerchantResolver {
     @Arg("id", () => Int) id: number,
     @Arg("options", () => UpdateMerchantSpec) options: UpdateMerchantSpec
   ) {
+    if (Object.keys(options).length === 0) {
+      throw new GraphQLError(
+        `Options cannot be empty`,
+        null,
+        null,
+        null,
+        null,
+        null,
+        {
+          code: "BAD_REQUEST",
+          http: {
+            status: 400,
+          },
+        }
+      );
+    }
     const [merchant] = await knex("merchants")
       .where({ id: id })
       .update(options, ["*"]);
