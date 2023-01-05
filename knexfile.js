@@ -1,18 +1,24 @@
 require("ts-node").register();
 
+const dotenv = require("dotenv");
+
+dotenv.config();
+
+console.log(process.env);
+
 module.exports = {
   client: "pg",
   connection: {
-    user: "postgres",
-    password: "password",
-    host: "localhost",
-    port: 5432,
-    database: "bipi_test",
+    user: process.env.DATABASE_USERNAME,
+    password: process.env.DATABASE_PASSWORD,
+    host: process.env.DATABASE_HOSTNAME,
+    port: parseInt(process.env.DATABASE_PORT),
+    database: process.env.DATABASE_NAME,
   },
   pool: {
-    min: 2,
-    max: 10,
-    idleTimeoutMillis: 2000,
+    min: parseInt(process.env.DATABASE_POOL_MIN),
+    max: parseInt(process.env.DATABASE_POOL_MAX),
+    idleTimeoutMillis: parseInt(process.env.DATABASE_POOL_IDLE_TIMEOUT_MILLIS),
   },
   acquireConnectionTimeout: 2000,
 };
