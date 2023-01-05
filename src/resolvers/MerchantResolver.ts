@@ -205,7 +205,9 @@ export class MerchantResolver {
     @Arg("id", () => Int) id: number,
     @Arg("options", () => UpdateMerchantSpec) options: UpdateMerchantSpec
   ) {
-    if (Object.keys(options).length === 0) {
+    const is_options_empty = Object.keys(options).length === 0;
+
+    if (is_options_empty) {
       throw createGraphQLError(`Options cannot be empty`, {
         code: "BAD_REQUEST",
         http: {
