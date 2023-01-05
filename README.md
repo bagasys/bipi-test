@@ -24,6 +24,23 @@ To enter the CLI of the postgres, run this command inside the docker instance.
 psql -U postgres
 ```
 
+### ENV Variables
+
+Here is an example of the .env file for this application.
+
+```
+DATABASE_HOSTNAME=localhost
+DATABASE_NAME=bipi_test
+DATABASE_USERNAME=postgres
+DATABASE_PASSWORD=password
+DATABASE_PORT=5432
+DATABASE_POOL_MIN=2
+DATABASE_POOL_MAX=10
+DATABASE_POOL_IDLE_TIMEOUT_MILLIS=2000
+```
+
+
+
 ### Run Migration
 
 After having a running instance of postgres database, execute this command to execute the migration
