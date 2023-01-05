@@ -10,6 +10,13 @@ export async function up(knex: Knex) {
     table.boolean("is_active").notNullable().defaultTo(true);
     table.timestamps(true, true);
   });
+
+  await knex.schema.raw(`
+    CREATE TRIGGER merchants_updated_at
+    BEFORE UPDATE ON merchants
+    FOR EACH ROW
+    EXECUTE PROCEDURE on_update_timestamp();
+  `);
 }
 
 export function down(knex: Knex) {
