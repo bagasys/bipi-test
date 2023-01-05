@@ -11,7 +11,14 @@ import {
   Int,
   registerEnumType,
 } from "type-graphql";
-import { GraphQLError } from "graphql";
+import { GraphQLError, GraphQLErrorExtensions } from "graphql";
+
+function createGraphQLError(
+  message: string,
+  extensions: GraphQLErrorExtensions
+) {
+  return new GraphQLError(message, null, null, null, null, null, extensions);
+}
 
 enum SortingOrder {
   Ascending = "ASCENDING",
@@ -161,20 +168,12 @@ export class MerchantResolver {
       .from("merchants");
 
     if (!merchant) {
-      throw new GraphQLError(
-        `Merchant with id of ${id} not found`,
-        null,
-        null,
-        null,
-        null,
-        null,
-        {
-          code: "NOT_FOUND",
-          http: {
-            status: 404,
-          },
-        }
-      );
+      throw createGraphQLError(`Merchant with id of ${id} not found`, {
+        code: "NOT_FOUND",
+        http: {
+          status: 404,
+        },
+      });
     }
 
     return merchant;
@@ -207,40 +206,24 @@ export class MerchantResolver {
     @Arg("options", () => UpdateMerchantSpec) options: UpdateMerchantSpec
   ) {
     if (Object.keys(options).length === 0) {
-      throw new GraphQLError(
-        `Options cannot be empty`,
-        null,
-        null,
-        null,
-        null,
-        null,
-        {
-          code: "BAD_REQUEST",
-          http: {
-            status: 400,
-          },
-        }
-      );
+      throw createGraphQLError(`Options cannot be empty`, {
+        code: "BAD_REQUEST",
+        http: {
+          status: 400,
+        },
+      });
     }
     const [merchant] = await knex("merchants")
       .where({ id: id })
       .update(options, ["*"]);
 
     if (!merchant) {
-      throw new GraphQLError(
-        `Merchant with id of ${id} not found`,
-        null,
-        null,
-        null,
-        null,
-        null,
-        {
-          code: "NOT_FOUND",
-          http: {
-            status: 404,
-          },
-        }
-      );
+      throw createGraphQLError(`Merchant with id of ${id} not found`, {
+        code: "NOT_FOUND",
+        http: {
+          status: 404,
+        },
+      });
     }
 
     return merchant;
