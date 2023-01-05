@@ -9,8 +9,27 @@ import {
   Float,
   ObjectType,
   Int,
+  registerEnumType,
 } from "type-graphql";
 import { GraphQLError } from "graphql";
+
+enum SortingOrder {
+  Ascending = "ASCENDING",
+  Descending = "DESCENDING",
+}
+
+enum MerchantSortingBy {
+  CreatedAt = "CreatedAt",
+  UpdatedAt = "UpdatedAt",
+}
+
+registerEnumType(SortingOrder, {
+  name: "SortingOrder",
+});
+
+registerEnumType(MerchantSortingBy, {
+  name: "MerchantSortingBy",
+});
 
 @ObjectType()
 export class Merchant {
@@ -91,6 +110,12 @@ class GetMerchantsSpec {
 
   @Field(() => Int, { defaultValue: 0 })
   offset: number;
+
+  @Field(() => MerchantSortingBy, { defaultValue: MerchantSortingBy.CreatedAt })
+  sort_by: MerchantSortingBy;
+
+  @Field(() => SortingOrder, { defaultValue: SortingOrder.Descending })
+  order: SortingOrder;
 }
 
 @Resolver()
@@ -104,12 +129,32 @@ export class MerchantResolver {
   async merchants(
     @Arg("options", () => GetMerchantsSpec) options: GetMerchantsSpec
   ) {
-    console.log(options);
+    const sorting_order =
+      options.order === SortingOrder.Ascending ? "asc" : "desc";
+
+    let sort_by = "";
+
+    switch (options.sort_by) {
+      case MerchantSortingBy.CreatedAt: {
+        sort_by = "created_at";
+        break;
+      }
+      case MerchantSortingBy.UpdatedAt: {
+        sort_by = "updated_at";
+        break;
+      }
+      default: {
+        sort_by = "created_at";
+        break;
+      }
+    }
+
     const merchants = await knex
       .select("*")
       .from("merchants")
       .limit(options.limit)
-      .offset(options.offset);
+      .offset(options.offset)
+      .orderBy(sort_by, sorting_order);
     return merchants;
   }
 
